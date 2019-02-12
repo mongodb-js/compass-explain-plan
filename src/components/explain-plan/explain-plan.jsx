@@ -42,7 +42,9 @@ const mapStateToProps = (state) => pick(
     'serverVersion',
     'namespace',
     'isZeroState',
-    'isEditable'
+    'isEditable',
+    'explain',
+    'appRegistry'
   ]
 );
 

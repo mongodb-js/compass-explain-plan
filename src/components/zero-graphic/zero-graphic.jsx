@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './zero-graphic.less';
 
 /**
- * The zero graphic.
+ * The zero graphic component.
  */
 class ZeroGraphic extends Component {
   static displayName = 'ZeroGraphic';

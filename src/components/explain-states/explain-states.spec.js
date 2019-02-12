@@ -10,7 +10,6 @@ describe('ExplainStates [Component]', () => {
   const openLinkSpy = sinon.spy();
   const isZeroState = true;
   const isEditable = false;
-  const serverVersion = '3.2.0';
 
   beforeEach(() => {
     component = mount(
@@ -19,7 +18,6 @@ describe('ExplainStates [Component]', () => {
         zeroStateChanged={setZeroStateChangedSpy}
         isZeroState={isZeroState}
         isEditable={isEditable}
-        serverVersion={serverVersion}
         openLink={openLinkSpy} />
     );
   });

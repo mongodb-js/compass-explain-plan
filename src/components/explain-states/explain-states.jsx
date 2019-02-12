@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { ZeroState, StatusRow } from 'hadron-react-components';
 import { TextButton } from 'hadron-react-buttons';
 import { ZeroGraphic } from 'components/zero-graphic';
+import { ExplainBody } from 'components/explain-body';
 
 import styles from './explain-states.less';
 
@@ -27,6 +28,9 @@ const SUBTEXT = 'Explain provides key execution metrics that help diagnose slow 
  */
 const DOCUMENTATION_LINK = 'https://docs.mongodb.com/compass/master/query-plan/';
 
+/**
+ * The ExplainStates component.
+ */
 class ExplainStates extends Component {
   static displayName = 'ExplainStatesComponent';
 
@@ -107,7 +111,7 @@ class ExplainStates extends Component {
     if (!this.checkIfZeroState()) {
       return (
         <div className={classnames(styles['content-container'])}>
-          ExplainPlan component content
+          <ExplainBody {...this.props} />
         </div>
       );
     }
