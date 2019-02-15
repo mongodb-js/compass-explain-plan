@@ -6,7 +6,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin');
 const baseWebpackConfig = require('./webpack.base.config');
 const project = require('./project');
-const TerserPlugin = require('terser-webpack-plugin');
 
 const GLOBALS = {
   'process.env': { 'NODE_ENV': JSON.stringify('production') },
@@ -43,7 +42,7 @@ const config = {
   },
   optimization: {
     // Minimize and uglify the code
-    minimizer: [new TerserPlugin()]
+    minimize: true
   },
   plugins: [
     // Auto-create webpack externals for any dependency listed as a peerDependency in package.json
