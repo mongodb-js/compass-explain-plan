@@ -24,6 +24,7 @@ describe('ExplainStates [Component]', () => {
   const switchToTreeViewSpy = sinon.spy();
   const switchToJSONViewSpy = sinon.spy();
   const query = {};
+  const treeStages = {};
 
   beforeEach(() => {
     component = mount(
@@ -35,7 +36,8 @@ describe('ExplainStates [Component]', () => {
         switchToJSONView={switchToJSONViewSpy}
         query={query}
         isEditable={isEditable}
-        openLink={openLinkSpy} />
+        openLink={openLinkSpy}
+        treeStages={treeStages} />
     );
   });
 

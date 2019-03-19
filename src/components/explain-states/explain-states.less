@@ -1,27 +1,7 @@
 @import (reference) "~less/compass/_theme.less";
 
 .explain-states {
-	// hacks for json view on explain tab
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.array ol.document-property-body .document-property-key,
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.object ol.document-property-body .document-property-key {
-    margin-left: 0;
-  }
-
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.array.expanded > ol.document-property-body,
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.object.expanded > ol.document-property-body {
-    margin-left: 16px;
-  }
-
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.array.expanded,
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.object.expanded {
-    margin-left: 0;
-  }
-
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.array,
-  ol.document-list li.document-list-item ol.document-property-body li.document-property.object {
-    margin-left: 0;
-  }
-	// end hacks
+	height: 100%;
 
 	.content-container {
 		background-color: @gray8;
@@ -44,13 +24,30 @@
 		}
 	}
 
+	.column-container {
+		margin-top: 5px;
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: auto;
+		flex-direction: column;
+		display: flex;
+		overflow: auto;
+		background: @gray8;
+
+		.column-main {
+			flex: 1;
+			margin-bottom: 100px;
+			padding: 0 15px;
+		}
+	}
+
 	.zero-state-container {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		padding-top: 135px;
+		padding-top: 70px;
 
 		.zero-state-action {
 			display: flex;
