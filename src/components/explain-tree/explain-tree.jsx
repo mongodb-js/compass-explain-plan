@@ -101,7 +101,9 @@ class ExplainTree extends Component {
       <div>
         <div
           className={classnames(styles['explain-tree'])}
-          ref={(inst) => { tree = inst; }}>
+          style={{ height: this.props.height, width: this.props.width }}
+          ref={(inst) => { tree = inst; }}
+        >
           {this.getStages()}
         </div>
       </div>

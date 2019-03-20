@@ -46,7 +46,7 @@ describe('ExplainStates [Component]', () => {
   });
 
   it('renders the wrapper div', () => {
-    expect(component.find(`.${styles['explain-states']}`)).to.be.present();
+    expect(component.find(`.${styles['controls-container']}`)).to.be.present();
   });
 
   it('renders the read only banner', () => {

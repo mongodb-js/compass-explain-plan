@@ -124,7 +124,7 @@ class ExplainStates extends Component {
   renderZeroState() {
     if (this.checkIfZeroState()) {
       return (
-        <div className={classnames(styles['zero-state-container'])}>
+        <div key="zero-state" className={classnames(styles['zero-state-container'])}>
           <ZeroGraphic />
           <ZeroState header={HEADER} subtext={SUBTEXT}>
             <div className={classnames(styles['zero-state-action'])}>
@@ -157,7 +157,7 @@ class ExplainStates extends Component {
   renderContent() {
     if (!this.checkIfZeroState()) {
       return (
-        <div className={classnames(styles['column-container'])}>
+        <div key="content" className={classnames(styles['column-container'])}>
           <div className={classnames(styles['column-main'])}>
             <ExplainBody {...this.props} />
           </div>
@@ -211,15 +211,15 @@ class ExplainStates extends Component {
    */
   render() {
     return (
-      <div className={classnames(styles['explain-states'])}>
-        <div className="controls-container">
+      [
+        <div key="controls-container" className={classnames(styles['controls-container'])}>
           {this.renderBanner()}
           {this.renderQueryBar()}
           {this.renderViewSwitcher()}
-        </div>
-        {this.renderZeroState()}
-        {this.renderContent()}
-      </div>
+        </div>,
+        this.renderZeroState(),
+        this.renderContent()
+      ]
     );
   }
 }
