@@ -3,7 +3,7 @@ import reducer, {
   TREE_STAGES_CHANGED
 } from 'modules/tree-stages';
 
-const explainSpy = {
+const explainExample = {
   error: null,
   executionSuccess: true,
   executionTimeMillis: 6,
@@ -29,9 +29,9 @@ const explainSpy = {
 describe('tree-stages module', () => {
   describe('#treeStagesChanged', () => {
     it('returns the TREE_STAGES_CHANGED action', () => {
-      expect(treeStagesChanged(explainSpy)).to.deep.equal({
+      expect(treeStagesChanged(explainExample)).to.deep.equal({
         type: TREE_STAGES_CHANGED,
-        explain: explainSpy
+        explain: explainExample
       });
     });
   });
@@ -50,7 +50,7 @@ describe('tree-stages module', () => {
 
     context('when the action is treeStagesChanged', () => {
       it('returns the new state', () => {
-        const treeStages = reducer(undefined, treeStagesChanged(explainSpy));
+        const treeStages = reducer(undefined, treeStagesChanged(explainExample));
 
         expect(treeStages).to.deep.equal({
           nodes: [],

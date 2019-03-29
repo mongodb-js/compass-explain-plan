@@ -10,7 +10,7 @@ import reducer, {
 
 } from 'modules/explain';
 
-const explainSpy = {
+const explainExample = {
   error: null,
   executionSuccess: true,
   executionTimeMillis: 6,
@@ -63,9 +63,9 @@ describe('explain module', () => {
 
   describe('#explainPlanFetched', () => {
     it('returns the EXPLAIN_PLAN_FETCHED action', () => {
-      expect(explainPlanFetched(explainSpy)).to.deep.equal({
+      expect(explainPlanFetched(explainExample)).to.deep.equal({
         type: EXPLAIN_PLAN_FETCHED,
-        explain: explainSpy
+        explain: explainExample
       });
     });
   });
@@ -124,9 +124,9 @@ describe('explain module', () => {
 
     context('when the action is explainPlanFetched', () => {
       it('returns the new state', () => {
-        const explain = reducer(undefined, explainPlanFetched(explainSpy));
+        const explain = reducer(undefined, explainPlanFetched(explainExample));
 
-        expect(explain).to.deep.equal(explainSpy);
+        expect(explain).to.deep.equal(explainExample);
       });
     });
   });
