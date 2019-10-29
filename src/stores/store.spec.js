@@ -113,7 +113,7 @@ describe('Explain Plan Store', () => {
       });
 
       context('when the action is EXPLAIN_STATE_CHANGED', () => {
-        const explainState = 'fetching';
+        const explainState = 'executed';
 
         it('updates the view type in state to "json"', (done) => {
           const unsubscribe = store.subscribe(() => {
@@ -130,7 +130,7 @@ describe('Explain Plan Store', () => {
           error: null,
           executionSuccess: true,
           executionTimeMillis: 6,
-          explainState: 'done',
+          explainState: 'executed',
           inMemorySort: false,
           index: null,
           indexType: 'COLLSCAN',
@@ -166,7 +166,7 @@ describe('Explain Plan Store', () => {
           error: null,
           executionSuccess: true,
           executionTimeMillis: 6,
-          explainState: 'done',
+          explainState: 'executed',
           inMemorySort: false,
           index: null,
           indexType: 'COLLSCAN',

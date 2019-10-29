@@ -13,12 +13,17 @@ import {
   globalAppRegistryActivated
 } from 'mongodb-redux-common/app-registry';
 
+import EXPLAIN_STATES from 'constants/explain-states';
+
 export const setDataProvider = (store, error, dataProvider) => {
   store.dispatch(dataServiceConnected(error, dataProvider));
 };
 
 /**
  * The store has a combined pipeline reducer plus the thunk middleware.
+ *
+ * @param {Object} options - Options.
+ * @returns {Object} Store.
  */
 const configureStore = (options = {}) => {
   const store = createStore(reducer, applyMiddleware(thunk));
@@ -40,7 +45,11 @@ const configureStore = (options = {}) => {
      */
     localAppRegistry.on('query-changed', (state) => {
       store.dispatch(queryChanged(state));
-      store.dispatch(fetchExplainPlan());
+      store.dispatch(fetchExplainPlan(state));
+    });
+
+    localAppRegistry.on('query-set', () => {
+      store.dispatch(explainStateChanged(EXPLAIN_STATES.OUTDATED));
     });
   }
 
@@ -61,7 +70,7 @@ const configureStore = (options = {}) => {
   // Set the namespace - must happen third.
   if (options.namespace) {
     store.dispatch(namespaceChanged(options.namespace));
-    store.dispatch(explainStateChanged('initial'));
+    store.dispatch(explainStateChanged(EXPLAIN_STATES.INITIAL));
   }
 
   if (options.isReadonly) {

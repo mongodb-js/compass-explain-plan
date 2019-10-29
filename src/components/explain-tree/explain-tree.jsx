@@ -30,13 +30,6 @@ class ExplainTree extends Component {
   static defaultProps = { nodes: [], links: [], width: 0, height: 0 };
 
   /**
-   * After mounting component draw links
-   */
-  componentDidMount() {
-    this.drawLinks();
-  }
-
-  /**
    * After updating component draw links
    */
   componentDidUpdate() {
@@ -98,14 +91,12 @@ class ExplainTree extends Component {
    */
   render() {
     return (
-      <div>
-        <div
-          className={classnames(styles['explain-tree'])}
-          style={{ height: this.props.height, width: this.props.width }}
-          ref={(inst) => { tree = inst; }}
-        >
-          {this.getStages()}
-        </div>
+      <div
+        className={classnames(styles['explain-tree'])}
+        style={{ height: this.props.height, width: this.props.width }}
+        ref={(inst) => { tree = inst; }}
+      >
+        {this.getStages()}
       </div>
     );
   }
