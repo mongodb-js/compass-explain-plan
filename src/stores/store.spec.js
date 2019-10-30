@@ -75,7 +75,8 @@ describe('Explain Plan Store', () => {
         project: null,
         skip: 0,
         limit: 0,
-        collation: null
+        collation: null,
+        isChanged: true
       };
 
       beforeEach(() => {
@@ -83,7 +84,7 @@ describe('Explain Plan Store', () => {
       });
 
       it('sets the server version in the state', () => {
-        expect(store.getState().query).to.equal(query);
+        expect(store.getState().query).to.deep.equal(query);
       });
     });
   });
