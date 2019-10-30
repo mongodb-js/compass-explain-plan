@@ -92,6 +92,14 @@ class ExplainStates extends Component {
   }
 
   /**
+   * Executes the explain plan.
+   */
+  onExecuteExplainClicked() {
+    this.props.changeExplainPlanState(EXPLAIN_STATES.EXECUTED);
+    this.props.fetchExplainPlan(this.queryBarStore.state);
+  }
+
+  /**
    * Checks if the zero state window should be displayed.
    *
    * @returns {Boolean}
@@ -186,7 +194,7 @@ class ExplainStates extends Component {
         store={this.queryBarStore}
         actions={this.queryBarActions}
         buttonLabel="Explain"
-        onApply={this.props.changeExplainPlanState.bind(this, EXPLAIN_STATES.EXECUTED)}
+        onApply={this.onExecuteExplainClicked.bind(this)}
         onReset={this.props.changeExplainPlanState.bind(this, EXPLAIN_STATES.INITIAL)}
       />
     );

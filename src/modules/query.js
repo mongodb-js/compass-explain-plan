@@ -18,7 +18,8 @@ export const INITIAL_STATE = {
   skip: 0,
   limit: 0,
   collation: null,
-  maxTimeMS: 5000
+  maxTimeMS: 5000,
+  isChanged: false
 };
 
 /**
@@ -31,7 +32,7 @@ export const INITIAL_STATE = {
  */
 export default function reducer(state = INITIAL_STATE, action) {
   if (action.type === QUERY_CHANGED) {
-    return action.query;
+    return { ...action.query, isChanged: true };
   }
 
   return state;

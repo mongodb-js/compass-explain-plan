@@ -7,7 +7,7 @@ import { serverVersionChanged } from 'modules/server-version';
 import { editModeChanged } from 'modules/edit-mode';
 import { indexesChanged } from 'modules/indexes';
 import { queryChanged } from 'modules/query';
-import { explainStateChanged, fetchExplainPlan } from 'modules/explain';
+import { explainStateChanged } from 'modules/explain';
 import {
   localAppRegistryActivated,
   globalAppRegistryActivated
@@ -45,11 +45,16 @@ const configureStore = (options = {}) => {
      */
     localAppRegistry.on('query-changed', (state) => {
       store.dispatch(queryChanged(state));
-      store.dispatch(fetchExplainPlan(state));
     });
 
-    localAppRegistry.on('query-set', () => {
-      store.dispatch(explainStateChanged(EXPLAIN_STATES.OUTDATED));
+    localAppRegistry.on('subtab-changed', (name) => {
+      if (name === 'Explain Plan') {
+        const state = store.getState();
+
+        if (state.query.isChanged === true) {
+          store.dispatch(explainStateChanged(EXPLAIN_STATES.OUTDATED));
+        }
+      }
     });
   }
 

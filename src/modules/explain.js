@@ -86,14 +86,7 @@ const doChangeExplainPlanState = (state, action) => {
     return INITIAL_STATE;
   }
 
-  if (
-    state.explainState === EXPLAIN_STATES.INITIAL &&
-    action.explainState === EXPLAIN_STATES.OUTDATED
-  ) {
-    explainState = EXPLAIN_STATES.INITIAL;
-  } else {
-    explainState = action.explainState;
-  }
+  explainState = action.explainState;
 
   return { ...state, explainState };
 };
@@ -235,14 +228,15 @@ const updateWithIndexesInfo = (explain, indexes) => ({
 /**
  * Fetches the explain plan.
  *
+ * @param {Object} query - The query.
+ *
  * @returns {Function} The function.
  */
-export const fetchExplainPlan = () => {
+export const fetchExplainPlan = (query) => {
   return (dispatch, getState) => {
     const state = getState();
     const dataService = state.dataService.dataService;
     const namespace = state.namespace;
-    const query = state.query;
     const indexes = state.indexes;
     const filter = query.filter;
     const options = {
