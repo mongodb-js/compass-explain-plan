@@ -9,6 +9,11 @@ const PREFIX = 'explain/query';
 export const QUERY_CHANGED = `${PREFIX}/QUERY_CHANGED`;
 
 /**
+ * The query executed action.
+ */
+export const QUERY_EXECUTED = `${PREFIX}/QUERY_EXECUTED`;
+
+/**
  * The initial state.
  */
 export const INITIAL_STATE = {
@@ -35,6 +40,10 @@ export default function reducer(state = INITIAL_STATE, action) {
     return { ...action.query, isChanged: true };
   }
 
+  if (action.type === QUERY_EXECUTED) {
+    return { ...state, isChanged: false };
+  }
+
   return state;
 }
 
@@ -46,3 +55,10 @@ export default function reducer(state = INITIAL_STATE, action) {
  * @returns {Object} The query changed action.
  */
 export const queryChanged = (query) => ({ type: QUERY_CHANGED, query });
+
+/**
+ * Action creator for query executed events.
+ *
+ * @returns {Object} The query executed action.
+ */
+export const queryExecuted = () => ({ type: QUERY_EXECUTED });

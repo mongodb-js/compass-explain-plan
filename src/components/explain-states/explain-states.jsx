@@ -66,7 +66,8 @@ class ExplainStates extends Component {
     switchToJSONView: PropTypes.func.isRequired,
     query: PropTypes.any,
     treeStages: PropTypes.object.isRequired,
-    appRegistry: PropTypes.object.isRequired
+    appRegistry: PropTypes.object.isRequired,
+    queryExecuted: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -76,6 +77,10 @@ class ExplainStates extends Component {
     this.queryBar = this.queryBarRole.component;
     this.queryBarStore = appRegistry.getStore(this.queryBarRole.storeName);
     this.queryBarActions = appRegistry.getAction(this.queryBarRole.actionName);
+  }
+
+  componentDidUpdate() {
+    this.props.queryExecuted();
   }
 
   /**
@@ -155,7 +160,7 @@ class ExplainStates extends Component {
                     !this.props.isEditable ? 'disabled' : ''
                   }`}
                   text="Execute Explain"
-                  clickHandler={this.props.changeExplainPlanState.bind(this, EXPLAIN_STATES.EXECUTED)} />
+                  clickHandler={this.onExecuteExplainClicked.bind(this)} />
               </div>
               <a
                 className={classnames(styles['zero-state-link'])}
