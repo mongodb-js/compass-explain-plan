@@ -9,7 +9,8 @@ import {
   switchToJSONView,
   fetchExplainPlan,
   changeExplainPlanState,
-  explainStateChanged
+  explainStateChanged,
+  insertExplainOfflineHandler
 } from 'modules/explain';
 import ExplainStates from 'components/explain-states';
 import { queryExecuted } from 'modules/query';
@@ -68,7 +69,8 @@ const MappedExplainPlan = connect(
     fetchExplainPlan,
     changeExplainPlanState,
     explainStateChanged,
-    queryExecuted
+    queryExecuted,
+    insertExplainOfflineHandler
   },
 )(ExplainPlan);
 

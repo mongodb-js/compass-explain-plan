@@ -20,6 +20,9 @@ const appRegistry = new AppRegistry();
 global.hadronApp = app;
 global.hadronApp.appRegistry = appRegistry;
 
+const OptionWriteSelector = require('./components/option-write-selector');
+appRegistry.registerComponent('DeploymentAwareness.OptionWriteSelector', OptionWriteSelector);
+
 // Activate our plugin with the Hadron App Registry
 activate(appRegistry);
 activateFieldStore(appRegistry);

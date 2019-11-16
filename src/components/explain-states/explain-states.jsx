@@ -10,6 +10,7 @@ import INDEX_TYPES from 'constants/index-types';
 import EXPLAIN_STATES from 'constants/explain-states';
 
 import styles from './explain-states.less';
+import './document-list.less';
 
 /**
  * Readonly warning for the status row.
@@ -37,6 +38,12 @@ const SUBTEXT = 'Explain provides key execution metrics that help diagnose slow 
  * Link to the explain plan documentation.
  */
 const DOCUMENTATION_LINK = 'https://docs.mongodb.com/compass/master/query-plan/';
+
+const BASE_CLASS = 'document-list';
+const ACTION_BAR_CLASS = `${BASE_CLASS}-action-bar`;
+const CONTAINER_CLASS = `${ACTION_BAR_CLASS}-container`;
+const INSERT_DATA = `btn-primary ${ACTION_BAR_CLASS}-insert-data`;
+const INSERT_DATA_TITLE = `${ACTION_BAR_CLASS}-insert-data-title`;
 
 /**
  * The ExplainStates component.
@@ -67,7 +74,8 @@ class ExplainStates extends Component {
     query: PropTypes.any,
     treeStages: PropTypes.object.isRequired,
     appRegistry: PropTypes.object.isRequired,
-    queryExecuted: PropTypes.func.isRequired
+    queryExecuted: PropTypes.func.isRequired,
+    insertExplainOfflineHandler: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -229,6 +237,31 @@ class ExplainStates extends Component {
   }
 
   /**
+   * Renders OptionWriteSelector component.
+   *
+   * @returns {React.Component} The component.
+   */
+  renderOptionWriteSelector() {
+    const dropdownOptions = { 'import-file': 'Import File', 'insert-document': 'Insert Document' };
+    const OptionWriteSelector = global.hadronApp.appRegistry.
+      getComponent('DeploymentAwareness.OptionWriteSelector');
+
+    return (
+      <OptionWriteSelector
+        className={INSERT_DATA}
+        id="insert-data-dropdown"
+        isCollectionLevel
+        title={<div className={INSERT_DATA_TITLE}><i className="fa fa-download" /><div>ADD DATA</div></div>}
+        options={dropdownOptions}
+        bsSize="xs"
+        tooltipId="document-is-not-writable"
+        // onSelect={this.props.insertHandler}
+        onSelect={this.props.insertExplainOfflineHandler}
+      />
+    );
+  }
+
+  /**
    * Renders ExplainPlan component.
    *
    * @returns {React.Component} The rendered component.
@@ -239,7 +272,12 @@ class ExplainStates extends Component {
         <div key="controls-container" className={classnames(styles['controls-container'])}>
           {this.renderBanner()}
           {this.renderQueryBar()}
-          {this.renderViewSwitcher()}
+
+          <div className={CONTAINER_CLASS}>
+            {this.renderOptionWriteSelector()}
+            {this.renderViewSwitcher()}
+          </div>
+
         </div>,
         this.renderZeroState(),
         this.renderContent()

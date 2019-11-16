@@ -226,6 +226,15 @@ const updateWithIndexesInfo = (explain, indexes) => ({
 });
 
 /**
+ * Handles event of Load Explain Offline button
+ *
+ *  @param {String} key - Selected option from the Add Data dropdown menu.
+ */
+export const insertExplainOfflineHandler = (key) => {
+  // TODO IgalR to complete
+};
+
+/**
  * Fetches the explain plan.
  *
  * @param {Object} query - The query.
