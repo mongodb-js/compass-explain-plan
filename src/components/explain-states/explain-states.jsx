@@ -242,7 +242,7 @@ class ExplainStates extends Component {
    * @returns {React.Component} The component.
    */
   renderOptionWriteSelector() {
-    const dropdownOptions = { 'import-file': 'Import File', 'insert-document': 'Insert Document' };
+    const dropdownOptions = { 'import-file': 'Import Explain File', 'insert-document': 'Insert Explain From Text' };
     const OptionWriteSelector = global.hadronApp.appRegistry.
       getComponent('DeploymentAwareness.OptionWriteSelector');
 
@@ -251,7 +251,7 @@ class ExplainStates extends Component {
         className={INSERT_DATA}
         id="insert-data-dropdown"
         isCollectionLevel
-        title={<div className={INSERT_DATA_TITLE}><i className="fa fa-download" /><div>ADD DATA</div></div>}
+        title={<div className={INSERT_DATA_TITLE}><i className="fa fa-download" /><div>LOAD PLAN</div></div>}
         options={dropdownOptions}
         bsSize="xs"
         tooltipId="document-is-not-writable"
@@ -274,9 +274,12 @@ class ExplainStates extends Component {
           {this.renderQueryBar()}
 
           <div className={CONTAINER_CLASS}>
-            {this.renderOptionWriteSelector()}
-            {this.renderViewSwitcher()}
+            <div className={ACTION_BAR_CLASS}>
+              {this.renderOptionWriteSelector()}
+              {this.renderViewSwitcher()}
+            </div>
           </div>
+
 
         </div>,
         this.renderZeroState(),
