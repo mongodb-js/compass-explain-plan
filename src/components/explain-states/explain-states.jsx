@@ -245,13 +245,12 @@ class ExplainStates extends Component {
     const dropdownOptions = { 'import-file': 'Import Explain File', 'insert-document': 'Insert Explain From Text' };
     const OptionWriteSelector = global.hadronApp.appRegistry.
       getComponent('DeploymentAwareness.OptionWriteSelector');
-
     return (
       <OptionWriteSelector
         className={INSERT_DATA}
         id="insert-data-dropdown"
         isCollectionLevel
-        title={<div className={INSERT_DATA_TITLE}><i className="fa fa-download" /><div>LOAD PLAN</div></div>}
+        title={<div className={`btn-primary ${INSERT_DATA_TITLE}`}><i className="fa fa-download"/><span>LOAD PLAN</span></div>}
         options={dropdownOptions}
         bsSize="xs"
         tooltipId="document-is-not-writable"
