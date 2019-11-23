@@ -5,6 +5,7 @@ import { ZeroState, StatusRow, ViewSwitcher } from 'hadron-react-components';
 import { TextButton } from 'hadron-react-buttons';
 import { ZeroGraphic } from 'components/zero-graphic';
 import { ExplainBody } from 'components/explain-body';
+import InsertDocumentDialog from 'components/explain-states/insert-document-dialog';
 
 import INDEX_TYPES from 'constants/index-types';
 import EXPLAIN_STATES from 'constants/explain-states';
@@ -75,7 +76,22 @@ class ExplainStates extends Component {
     treeStages: PropTypes.object.isRequired,
     appRegistry: PropTypes.object.isRequired,
     queryExecuted: PropTypes.func.isRequired,
-    insertExplainOfflineHandler: PropTypes.func.isRequired
+
+    openInsertExplainDialog: PropTypes.func.isRequired,
+    openExplainFileDialog: PropTypes.func.isRequired,
+    closeInsertDocumentDialog: PropTypes.func,
+    insertDocument: PropTypes.func,
+    insertMany: PropTypes.func,
+    updateJsonDoc: PropTypes.func,
+    toggleInsertDocument: PropTypes.func.isRequired,
+    toggleInsertDocumentView: PropTypes.func.isRequired,
+
+    explainDialog: PropTypes.shape({
+      version: PropTypes.string.isRequired,
+      tz: PropTypes.string,
+      ns: PropTypes.string,
+      insert: PropTypes.object
+    })
   }
 
   constructor(props) {
@@ -110,6 +126,19 @@ class ExplainStates extends Component {
   onExecuteExplainClicked() {
     this.props.changeExplainPlanState(EXPLAIN_STATES.EXECUTED);
     this.props.fetchExplainPlan(this.queryBarStore.state);
+  }
+
+  /**
+   * Handle selection of explain plan Load Plan
+   *
+   * @param {String} key - Selected option from the Load Plan drop down menu.
+   */
+  onInsertExplainOfflineSelected(key) {
+    if (key === 'insert-document') {
+      this.props.openInsertExplainDialog();
+    } else if (key === 'import-file') {
+      this.props.openExplainFileDialog();
+    }
   }
 
   /**
@@ -250,13 +279,29 @@ class ExplainStates extends Component {
         className={INSERT_DATA}
         id="insert-data-dropdown"
         isCollectionLevel
-        title={<div className={`btn-primary ${INSERT_DATA_TITLE}`}><i className="fa fa-download"/><span>LOAD PLAN</span></div>}
+        title={<div className={`btn-primary ${INSERT_DATA_TITLE}`}><i className="fa fa-download" /><span>LOAD PLAN</span></div>}
         options={dropdownOptions}
         bsSize="xs"
         tooltipId="document-is-not-writable"
-        // onSelect={this.props.insertHandler}
-        onSelect={this.props.insertExplainOfflineHandler}
+        onSelect={this.onInsertExplainOfflineSelected.bind(this)}
       />
+    );
+  }
+
+  renderInsertModal() {
+    return (
+      <InsertDocumentDialog
+        closeInsertDocumentDialog={this.props.closeInsertDocumentDialog}
+        insertDocument={this.props.insertDocument}
+        insertMany={this.props.insertMany}
+        updateJsonDoc={this.props.updateJsonDoc}
+        toggleInsertDocument={this.props.toggleInsertDocument}
+        toggleInsertDocumentView={this.props.toggleInsertDocumentView}
+        jsonView={this.props.explainDialog.insert.jsonView}
+        version={this.props.explainDialog.version}
+        tz={this.props.explainDialog.tz}
+        ns={this.props.explainDialog.ns}
+        {...this.props.explainDialog.insert} />
     );
   }
 
@@ -282,7 +327,8 @@ class ExplainStates extends Component {
 
         </div>,
         this.renderZeroState(),
-        this.renderContent()
+        this.renderContent(),
+        this.renderInsertModal()
       ]
     );
   }

@@ -188,6 +188,9 @@
     "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "fast-json-parse": "^1.0.3",
+    "js-beautify": "^1.10.0",
+    "mongodb-ace-theme": "0.0.1"
   }
 }

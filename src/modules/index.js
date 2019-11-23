@@ -8,6 +8,7 @@ import namespace, { INITIAL_STATE as NAMESPACE_STATE, NAMESPACE_CHANGED } from '
 import serverVersion, { INITIAL_STATE as SV_STATE } from './server-version';
 import isEditable, { INITIAL_STATE as IS_EDITABLE_STATE } from './edit-mode';
 import explain, { INITIAL_STATE as EXPLAIN_STATE } from './explain';
+import explainDialog, { INITIAL_STATE as EXPLAIN_DIALOG } from './explain-dialog';
 import indexes, { INITIAL_STATE as INDEXES_STATE } from './indexes';
 import query, { INITIAL_STATE as QUERY_STATE } from './query';
 import treeStages, { INITIAL_STATE as TREE_STAGES_STATE } from './tree-stages';
@@ -27,6 +28,7 @@ export const INITIAL_STATE = {
   serverVersion: SV_STATE,
   isEditable: IS_EDITABLE_STATE,
   explain: EXPLAIN_STATE,
+  explainDialog: EXPLAIN_DIALOG,
   indexes: INDEXES_STATE,
   query: QUERY_STATE,
   treeStages: TREE_STAGES_STATE
@@ -42,6 +44,7 @@ const appReducer = combineReducers({
   serverVersion,
   isEditable,
   explain,
+  explainDialog,
   indexes,
   query,
   treeStages
