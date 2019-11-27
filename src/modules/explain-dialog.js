@@ -87,13 +87,10 @@ const getInitialQueryState = () => {
  * @returns {Function} The dispatch function.
  */
 export const openInsertExplainDialog = () => {
-  const hadronDoc = new HadronDocument({}, false);
-  const jsonDoc = EJSON.stringify(hadronDoc.generateObject());
-
   const insertState = {
     insert: {
-      doc: hadronDoc,
-      jsonDoc: jsonDoc,
+      doc: {},
+      jsonDoc: null,
       jsonView: true,
       message: '',
       mode: MODIFYING,
