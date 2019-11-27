@@ -208,14 +208,14 @@ class InsertDocumentDialog extends React.PureComponent {
         backdrop="static"
         onHide={this.handleHide.bind(this)}>
         <Modal.Header>
-          <Modal.Title>Insert to Collection {this.props.ns}</Modal.Title>
+          <Modal.Title>Paste an Explain Plan</Modal.Title>
         </Modal.Header>
 
         <Modal.Body onFocus={this.handleBlur.bind(this)}>
           <div className="insert-document-views">
             <ViewSwitcher
               label="View"
-              buttonLabels={['JSON', 'List']}
+              buttonLabels={[]}
               showLabels={false}
               iconClassNames={['curly-bracket', 'fa fa-list-ul']}
               activeButton={currentView}
@@ -236,7 +236,7 @@ class InsertDocumentDialog extends React.PureComponent {
           <TextButton
             className="btn btn-primary btn-sm"
             dataTestId="insert-document-button"
-            text="Insert"
+            text="Import"
             disabled={this.hasErrors()}
             clickHandler={this.handleInsert.bind(this)} />
         </Modal.Footer>

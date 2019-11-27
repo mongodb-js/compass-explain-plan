@@ -13,7 +13,7 @@ import 'mongodb-ace-theme';
 
 import styles from './insert-json-document.less';
 
-const EDITOR_COMMENT = '/** \n* Paste one or more documents here\n*/\n';
+const EDITOR_COMMENT = '';
 
 class InsertJsonDocument extends Component {
   /**
