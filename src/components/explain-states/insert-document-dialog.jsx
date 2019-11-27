@@ -8,7 +8,6 @@ import InsertJsonDocument from 'components/explain-states/insert-json-document';
 import InsertDocument from 'components/explain-states/insert-document';
 import InsertDocumentFooter from 'components/explain-states/insert-document-footer';
 import { TextButton } from 'hadron-react-buttons';
-import { ViewSwitcher } from 'hadron-react-components';
 import { Element } from 'hadron-document';
 
 /**
@@ -109,27 +108,11 @@ class InsertDocumentDialog extends React.PureComponent {
    * Handle the insert.
    */
   handleInsert() {
-    this.setState({ message: 'Inserting Document', mode: 'progress' });
+    this.setState({ message: 'Process Explain Plan', mode: 'progress' });
     if (this.hasManyDocuments()) {
       this.props.insertMany();
     } else {
       this.props.insertDocument();
-    }
-  }
-
-  /**
-   * Switches between JSON and Hadron Document views.
-   *
-   * In case of multiple documents, only switches the this.props.insert.jsonView
-   * In other cases, also modifies this.props.insert.doc/jsonDoc to keep data in place.
-   *
-   * @param {String} view - which view we are looking at: JSON or LIST.
-   */
-  switchInsertDocumentView(view) {
-    if (!this.hasManyDocuments()) {
-      this.props.toggleInsertDocument(view);
-    } else {
-      this.props.toggleInsertDocumentView(view);
     }
   }
 
@@ -200,8 +183,6 @@ class InsertDocumentDialog extends React.PureComponent {
    * @returns {React.Component} The react component.
    */
   render() {
-    const currentView = this.props.jsonView ? 'JSON' : 'List';
-
     return (
       <Modal
         show={this.props.isOpen}
@@ -212,16 +193,6 @@ class InsertDocumentDialog extends React.PureComponent {
         </Modal.Header>
 
         <Modal.Body onFocus={this.handleBlur.bind(this)}>
-          <div className="insert-document-views">
-            <ViewSwitcher
-              label="View"
-              buttonLabels={[]}
-              showLabels={false}
-              iconClassNames={['curly-bracket', 'fa fa-list-ul']}
-              activeButton={currentView}
-              disabled={this.hasErrors()}
-              onClick={this.switchInsertDocumentView.bind(this)} />
-          </div>
           {this.renderDocumentOrJsonView()}
           <InsertDocumentFooter
             message={this.hasErrors() ? INSERT_INVALID_MESSAGE : this.state.message}
@@ -249,8 +220,6 @@ InsertDocumentDialog.displayName = 'InsertDocumentDialog';
 
 InsertDocumentDialog.propTypes = {
   closeInsertDocumentDialog: PropTypes.func.isRequired,
-  toggleInsertDocumentView: PropTypes.func.isRequired,
-  toggleInsertDocument: PropTypes.func.isRequired,
   insertDocument: PropTypes.func.isRequired,
   insertMany: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,

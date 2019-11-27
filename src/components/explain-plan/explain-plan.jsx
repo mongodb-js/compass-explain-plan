@@ -18,9 +18,7 @@ import {
   closeInsertDocumentDialog,
   insertDocument,
   insertMany,
-  updateJsonDoc,
-  toggleInsertDocument,
-  toggleInsertDocumentView,
+  updateJsonDoc
 } from 'modules/explain-dialog';
 
 import ExplainStates from 'components/explain-states';
@@ -88,9 +86,7 @@ const MappedExplainPlan = connect(
     closeInsertDocumentDialog,
     insertDocument,
     insertMany,
-    updateJsonDoc,
-    toggleInsertDocument,
-    toggleInsertDocumentView
+    updateJsonDoc
   },
 )(ExplainPlan);
 

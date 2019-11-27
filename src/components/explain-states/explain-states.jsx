@@ -83,8 +83,6 @@ class ExplainStates extends Component {
     insertDocument: PropTypes.func,
     insertMany: PropTypes.func,
     updateJsonDoc: PropTypes.func,
-    toggleInsertDocument: PropTypes.func.isRequired,
-    toggleInsertDocumentView: PropTypes.func.isRequired,
 
     explainDialog: PropTypes.shape({
       version: PropTypes.string.isRequired,
@@ -295,8 +293,6 @@ class ExplainStates extends Component {
         insertDocument={this.props.insertDocument}
         insertMany={this.props.insertMany}
         updateJsonDoc={this.props.updateJsonDoc}
-        toggleInsertDocument={this.props.toggleInsertDocument}
-        toggleInsertDocumentView={this.props.toggleInsertDocumentView}
         jsonView={this.props.explainDialog.insert.jsonView}
         version={this.props.explainDialog.version}
         tz={this.props.explainDialog.tz}

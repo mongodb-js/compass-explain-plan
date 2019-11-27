@@ -258,68 +258,6 @@ const doUpdateJsonDoc = (state, action) => {
   return {...state, ...action.updateState};
 };
 
-/**
- * Switch between list and JSON views when inserting a document through Insert Document modal.
- *
- * Also modifies doc and jsonDoc states to keep accurate data for each view.
- * @param {String} view - view we are switching to.
- */
-export const toggleInsertDocument = (view) => {
-  /* if (view === 'JSON') {
-      const jsonDoc = EJSON.stringify(this.state.insert.doc.generateObject());
-
-      this.setState({
-      insert: {
-          doc: this.state.insert.doc,
-          jsonView: true,
-          jsonDoc: jsonDoc,
-          message: '',
-          mode: MODIFYING,
-          isOpen: true
-      }
-      });
-  } else {
-      let hadronDoc;
-
-      if (this.state.insert.jsonDoc === '') {
-      hadronDoc = this.state.insert.doc;
-      } else {
-      hadronDoc = new HadronDocument(EJSON.parse(this.state.insert.jsonDoc), false);
-      }
-
-      this.setState({
-      insert: {
-          doc: hadronDoc,
-          jsonView: false,
-          jsonDoc: this.state.insert.jsonDoc,
-          message: '',
-          mode: MODIFYING,
-          isOpen: true
-      }
-      });
-  }*/
-};
-
-/**
- * Toggle just the jsonView insert state.
- *
- * @param {String} view - view we are switching to.
- */
-export const toggleInsertDocumentView = (view) => {
-  /*
-  const jsonView = view === 'JSON';
-  this.setState({
-      insert: {
-      doc: {},
-      jsonDoc: this.state.insert.jsonDoc,
-      jsonView: jsonView,
-      message: '',
-      mode: MODIFYING,
-      isOpen: true
-      }
-  });*/
-};
-
 export const INITIAL_STATE = {
   ns: '',
   tz: 'UTC',
