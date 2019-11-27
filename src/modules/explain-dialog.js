@@ -1,3 +1,22 @@
+import HadronDocument from 'hadron-document';
+import EJSON from 'mongodb-extjson';
+
+/**
+ * The module action prefix.
+ */
+const PREFIX = 'explain_offline';
+
+/**
+ * Open explain offline document dialog
+ */
+export const OPEN_DOCUMENT_DIALOG = `${PREFIX}/OPEN_DOCUMENT_DIALOG`;
+
+/**
+ * Update JSON Document
+ */
+export const UPDATE_JSON_DOCUMENT = `${PREFIX}/UPDATE_JSON_DOCUMENT`;
+
+
 /**
  * The list view constant.
  */
@@ -7,23 +26,6 @@ const LIST = 'List';
  * Modifying constant.
  */
 const MODIFYING = 'modifying';
-
-const MAPPINGS = {
-
-};
-
-/**
- * Reducer function for handle state changes to status.
- *
- * @param {String} state - The status state.
- * @param {Object} action - The action.
- *
- * @returns {String} The new state.
- */
-export default function reducer(state = INITIAL_STATE, action) {
-  const fn = MAPPINGS[action.type];
-  return fn ? fn(state, action) : state;
-}
 
 /**
  * Get the initial state of the store.
@@ -39,16 +41,14 @@ export const getInitialState = () => {
  *
  * @returns {Object} The initial insert state.
  */
-const getInitialInsertState = () => {
-  return {
-    doc: null,
-    jsonDoc: null,
-    message: '',
-    mode: MODIFYING,
-    jsonView: false,
-    isOpen: false
-  };
-};
+const getInitialInsertState = () => ({
+  doc: null,
+  jsonDoc: null,
+  message: '',
+  mode: MODIFYING,
+  jsonView: false,
+  isOpen: false
+});
 
 /**
  * Get the initial table state.
@@ -76,8 +76,36 @@ const getInitialQueryState = () => {
   };
 };
 
+/**
+ * Insert explain document
+ */
 export const openInsertExplainDialog = () => {
+  const hadronDoc = new HadronDocument({}, false);
+  const jsonDoc = EJSON.stringify(hadronDoc.generateObject());
+
+  const insertState = {
+    insert: {
+      doc: hadronDoc,
+      jsonDoc: jsonDoc,
+      jsonView: true,
+      message: '',
+      mode: MODIFYING,
+      isOpen: true
+    }
+  };
+
+  return (dispatch) => {
+    dispatch(openInsertExplainDialogAction(insertState));
+    return;
+  };
 };
+
+const openInsertExplainDialogAction = (insertState) => ({
+  type: OPEN_DOCUMENT_DIALOG,
+  insertState
+});
+
+const doOpenInsertExplainDialog = (state, action) => ({ ...state, ...action.insertState });
 
 export const openExplainFileDialog = () => {
 
@@ -186,16 +214,30 @@ export const insertMany = () => {
  * @param {String} value - JSON string we are updating.
  */
 export const updateJsonDoc = (value) => {
-  /* this.setState({
-      insert: {
+  const updateState = {
+    insert: {
       doc: {},
       jsonDoc: value,
       jsonView: true,
       message: '',
       mode: MODIFYING,
       isOpen: true
-      }
-  });*/
+    }
+  };
+
+  return (dispatch) => {
+    dispatch(updateJsonDocAction(updateState));
+    return;
+  };
+};
+
+const updateJsonDocAction = (updateState) => ({
+  type: UPDATE_JSON_DOCUMENT,
+  updateState
+});
+
+const doUpdateJsonDoc = (state, action) => {
+  return {...state, ...action.updateState};
 };
 
 /**
@@ -282,3 +324,21 @@ export const INITIAL_STATE = {
   isDataLake: false,
   isReadonly: false
 };
+
+const MAPPINGS = {
+  [OPEN_DOCUMENT_DIALOG]: doOpenInsertExplainDialog,
+  [UPDATE_JSON_DOCUMENT]: doUpdateJsonDoc
+};
+
+/**
+ * Reducer function for handle state changes to status.
+ *
+ * @param {String} state - The status state.
+ * @param {Object} action - The action.
+ *
+ * @returns {String} The new state.
+ */
+export default function reducer(state = INITIAL_STATE, action) {
+  const fn = MAPPINGS[action.type];
+  return fn ? fn(state, action) : state;
+}
