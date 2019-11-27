@@ -12,6 +12,11 @@ const PREFIX = 'explain_offline';
 export const OPEN_DOCUMENT_DIALOG = `${PREFIX}/OPEN_DOCUMENT_DIALOG`;
 
 /**
+ * Close explain offline document dialog
+ */
+export const CLOSE_DOCUMENT_DIALOG = `${PREFIX}/CLOSE_DOCUMENT_DIALOG`;
+
+/**
  * Update JSON Document
  */
 export const UPDATE_JSON_DOCUMENT = `${PREFIX}/UPDATE_JSON_DOCUMENT`;
@@ -78,6 +83,8 @@ const getInitialQueryState = () => {
 
 /**
  * Insert explain document
+ *
+ * @returns {Function} The dispatch function.
  */
 export const openInsertExplainDialog = () => {
   const hadronDoc = new HadronDocument({}, false);
@@ -105,17 +112,27 @@ const openInsertExplainDialogAction = (insertState) => ({
   insertState
 });
 
-const doOpenInsertExplainDialog = (state, action) => ({ ...state, ...action.insertState });
+const doToggleInsertExplainDialog = (state, action) => ({...state, ...action.insertState});
 
 export const openExplainFileDialog = () => {
 
 };
 
+/**
+ * Closes Insert Document Dialog
+ *
+ * @returns {Function} The dispatch function.
+ */
 export const closeInsertDocumentDialog = () => {
-  /* this.setState({
-    insert: this.getInitialInsertState()
-  });*/
+  return (dispatch) => {
+    dispatch(closeInsertDocumentDialogAction(getInitialInsertState()));
+  };
 };
+
+const closeInsertDocumentDialogAction = (insertInitialState) => ({
+  type: CLOSE_DOCUMENT_DIALOG,
+  insertState: {insert: insertInitialState}
+});
 
 /**
  * Insert the document given the document in current state.
@@ -212,6 +229,7 @@ export const insertMany = () => {
  * state with the inputed json data.
  *
  * @param {String} value - JSON string we are updating.
+ * @returns {Function} The dispatch function.
  */
 export const updateJsonDoc = (value) => {
   const updateState = {
@@ -326,7 +344,8 @@ export const INITIAL_STATE = {
 };
 
 const MAPPINGS = {
-  [OPEN_DOCUMENT_DIALOG]: doOpenInsertExplainDialog,
+  [OPEN_DOCUMENT_DIALOG]: doToggleInsertExplainDialog,
+  [CLOSE_DOCUMENT_DIALOG]: doToggleInsertExplainDialog,
   [UPDATE_JSON_DOCUMENT]: doUpdateJsonDoc
 };
 
