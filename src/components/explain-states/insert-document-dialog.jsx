@@ -13,7 +13,7 @@ import { Element } from 'hadron-document';
 /**
  * The insert invalid message.
  */
-const INSERT_INVALID_MESSAGE = 'Insert not permitted while document contains errors.';
+const INSERT_INVALID_MESSAGE = 'Processing not permitted while document contains errors.';
 
 /**
  * Component for the insert document dialog.

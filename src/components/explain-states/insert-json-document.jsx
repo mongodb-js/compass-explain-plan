@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import jsBeautify from 'js-beautify';
 import PropTypes from 'prop-types';
 import Ace from 'react-ace';
+import toStrictEJSON from 'components/explain-states/utils/to-strict-ejson';
 
 import 'brace/mode/javascript';
 import 'brace/mode/csharp';
@@ -39,6 +40,7 @@ class InsertJsonDocument extends Component {
 
 
   onChange(value) {
+    value = toStrictEJSON(value);
     this.props.updateJsonDoc(value.split('*/\n').pop());
   }
 
