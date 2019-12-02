@@ -18,26 +18,26 @@ export const toStrictSimple = (json) => {
   //  It looks like that BSON.DBRef constructor ignores the first namespace argument
   //   therefore I did an ugly tweak of stringify then parsing, setting the $ref and stringify
     .replace(/DBRef\("(.+?)",\s*ObjectId\("([0-9abcdef]{24})"\)(\s*,\s*)?"?(.+?)?"?\s*\)/g, (match, p1, p2, p3, p4) => {
-      let ref = EJSON.stringify(BSON.DBRef(p1.trim(), BSON.ObjectID(p2), p4 ? p4.trim() : null));
+      const ref = EJSON.stringify(BSON.DBRef(p1.trim(), BSON.ObjectID(p2), p4 ? p4.trim() : null));
       const refObj = EJSON.parse(ref);
       // Setting $ref as a namespace provided as a first argument
       refObj.$ref = p1;
-      ref = EJSON.stringify(refObj);
-      return ref;
+      return EJSON.stringify(refObj);
     })
-    // ObjectIds
+    // ObjectIdsq
     .replace(/ObjectId\("([0-9abcdef]{24})"\)/g, (match, p1) => EJSON.stringify(BSON.ObjectID(p1)))
     // NumberLong
     .replace(/NumberLong\("?([0-9]+)"?\)/g, (match, p1) => EJSON.stringify(BSON.Long(parseInt(p1, 10))))
-    // numberDecimal
-    .replace(/NumberDecimal\("([0-9.]+)"\)/g, (match, p1) => EJSON.stringify(BSON.Decimal128.fromString(p1)))
+    // NumberDecimal
+    .replace(/NumberDecimal\("?([0-9.]+)"?\)/g, (match, p1) => EJSON.stringify(BSON.Decimal128.fromString(p1)))
+    // NumberInteger
+    .replace(/NumberInt\("?([0-9.]+)"?\)/g, (match, p1) => EJSON.stringify(BSON.Int32(parseInt(p1, 10))))
 
     // Date also prints the wrong format,
     // @see https://jira.mongodb.org/browse/SERVER-19171
     .replace(/ISODate\("(.+?)"\)/g, (match, p1) => {
       const msL = BSON.Long.fromNumber(new Date(p1).getTime());
-      const extDate = '{"$date": ' + EJSON.stringify(msL) + '}';
-      return extDate;
+      return '{"$date": ' + EJSON.stringify(msL) + '}';
     })
     .replace(/{\n?\s*\"?\$date\"?\s*:\s*?(\d+\.\d)\s*\n?}/g, '$1') // TODO FIX $date issues this is very ugly
 
