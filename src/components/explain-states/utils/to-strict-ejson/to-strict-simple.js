@@ -24,7 +24,7 @@ export const toStrictSimple = (json) => {
       refObj.$ref = p1;
       return EJSON.stringify(refObj);
     })
-    // ObjectIdsq
+    // ObjectId
     .replace(/ObjectId\("([0-9abcdef]{24})"\)/g, (match, p1) => EJSON.stringify(BSON.ObjectID(p1)))
     // NumberLong
     .replace(/NumberLong\("?([0-9]+)"?\)/g, (match, p1) => EJSON.stringify(BSON.Long(parseInt(p1, 10))))
