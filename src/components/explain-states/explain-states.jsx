@@ -81,7 +81,6 @@ class ExplainStates extends Component {
     openExplainFileDialog: PropTypes.func.isRequired,
     closeInsertDocumentDialog: PropTypes.func,
     insertDocument: PropTypes.func,
-    insertMany: PropTypes.func,
     updateJsonDoc: PropTypes.func,
 
     explainDialog: PropTypes.shape({
@@ -291,7 +290,6 @@ class ExplainStates extends Component {
       <InsertDocumentDialog
         closeInsertDocumentDialog={this.props.closeInsertDocumentDialog}
         insertDocument={this.props.insertDocument}
-        insertMany={this.props.insertMany}
         updateJsonDoc={this.props.updateJsonDoc}
         jsonView={this.props.explainDialog.insert.jsonView}
         version={this.props.explainDialog.version}

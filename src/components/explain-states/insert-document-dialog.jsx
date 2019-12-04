@@ -109,11 +109,7 @@ class InsertDocumentDialog extends React.PureComponent {
    */
   handleInsert() {
     this.setState({ message: 'Process Explain Plan', mode: 'progress' });
-    if (this.hasManyDocuments()) {
-      this.props.insertMany();
-    } else {
-      this.props.insertDocument();
-    }
+    this.props.insertDocument();
   }
 
   /**
@@ -221,7 +217,6 @@ InsertDocumentDialog.displayName = 'InsertDocumentDialog';
 InsertDocumentDialog.propTypes = {
   closeInsertDocumentDialog: PropTypes.func.isRequired,
   insertDocument: PropTypes.func.isRequired,
-  insertMany: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,

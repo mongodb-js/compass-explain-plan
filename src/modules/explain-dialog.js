@@ -1,5 +1,9 @@
-// import HadronDocument from 'hadron-document';
-// import EJSON from 'mongodb-extjson';
+import {
+  processExplainPlan,
+  explainStateChanged
+} from 'modules/explain';
+
+import EXPLAIN_STATES from 'constants/explain-states';
 
 /**
  * The module action prefix.
@@ -132,93 +136,19 @@ const closeInsertDocumentDialogAction = (insertInitialState) => ({
 });
 
 /**
- * Insert the document given the document in current state.
- * Parse document from Json Insert View Modal or generate object from hadron document
- * view to insert.
+ * Process inserted Explain Offline plan
+ * @returns {Function} The dispatch function.
  */
 export const insertDocument = () => {
-  /* let doc;
-  if (this.state.insert.jsonView) {
-      doc = EJSON.parse(this.state.insert.jsonDoc);
-  } else {
-      doc = this.state.insert.doc.generateObject();
-  }
+  return (dispatch, getState) => {
+    const explainPlan = JSON.parse(getState().explainDialog.insert.jsonDoc);
+    dispatch(explainStateChanged(EXPLAIN_STATES.EXECUTED));
 
-  this.dataService.insertOne(this.state.ns, doc, {}, (error) => {
-      if (error) {
-      return this.setState({
-          insert: {
-          doc: new HadronDocument(doc),
-          jsonDoc: JSON.stringify(doc),
-          jsonView: this.state.insert.jsonView,
-          message: error.message,
-          mode: ERROR,
-          isOpen: true
-          }
-      });
-      }
+    const state = getState();
+    processExplainPlan(dispatch, state.explain, state.indexes, explainPlan);
 
-      // check if the newly inserted document matches the current filter, by
-      // running the same filter but targeted only to the doc's _id.
-      const filter = Object.assign({}, this.state.query.filter, { _id: doc._id });
-      this.dataService.count(this.state.ns, filter, {}, (err, count) => {
-      if (err) {
-          return this.setState({
-          insert: this.getInitialInsertState()
-          });
-      }
-      // track mode for analytics events
-      const mode = this.state.insert.jsonView ? 'json' : 'default';
-      this.localAppRegistry.emit('document-inserted', this.state.view, mode, false, doc);
-      this.globalAppRegistry.emit('document-inserted', this.state.view, mode, false, doc);
-
-      // count is greater than 0, if 1 then the new doc matches the filter
-      if (count > 0) {
-          return this.setState({
-          docs: this.state.docs.concat([new HadronDocument(doc)]),
-          count: this.state.count + 1,
-          end: this.state.end + 1,
-          insert: this.getInitialInsertState()
-          });
-      }
-      this.setState({
-          count: this.state.count + 1,
-          insert: this.getInitialInsertState()
-      });
-      });
-  });*/
-};
-
-/**
- * Insert a single document.
- */
-export const insertMany = () => {
-  /* const docs = EJSON.parse(this.state.insert.jsonDoc);
-
-  this.dataService.insertMany(this.state.ns, docs, {}, (error) => {
-      if (error) {
-      return this.setState({
-          insert: {
-          doc: {},
-          jsonDoc: this.state.insert.jsonDoc,
-          jsonView: true,
-          message: error.message,
-          mode: ERROR,
-          isOpen: true
-          }
-      });
-      }
-      // track mode for analytics events
-      const mode = this.state.insert.jsonView ? 'json' : 'default';
-      this.localAppRegistry.emit('document-inserted', this.state.view, mode, true);
-      this.globalAppRegistry.emit('document-inserted', this.state.view, mode, true);
-
-      this.state.insert = this.getInitialInsertState();
-      // Since we are inserting a bunch of documents and we need to rerun all
-      // the queries and counts for them, let's just refresh the whole set of
-      // documents.
-      this.refreshDocuments();
-  });*/
+    dispatch(closeInsertDocumentDialogAction(getInitialInsertState()));
+  };
 };
 
 /**

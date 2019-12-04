@@ -17,7 +17,6 @@ import {
   openExplainFileDialog,
   closeInsertDocumentDialog,
   insertDocument,
-  insertMany,
   updateJsonDoc
 } from 'modules/explain-dialog';
 
@@ -85,7 +84,6 @@ const MappedExplainPlan = connect(
     openExplainFileDialog,
     closeInsertDocumentDialog,
     insertDocument,
-    insertMany,
     updateJsonDoc
   },
 )(ExplainPlan);
