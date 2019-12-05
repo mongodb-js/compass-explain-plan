@@ -204,7 +204,7 @@ class InsertDocumentDialog extends React.PureComponent {
             className="btn btn-primary btn-sm"
             dataTestId="insert-document-button"
             text="Import"
-            disabled={this.hasErrors()}
+            disabled={this.props.jsonDoc === '' || this.hasErrors()}
             clickHandler={this.handleInsert.bind(this)} />
         </Modal.Footer>
       </Modal>
