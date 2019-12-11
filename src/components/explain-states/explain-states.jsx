@@ -268,7 +268,7 @@ class ExplainStates extends Component {
    * @returns {React.Component} The component.
    */
   renderOptionWriteSelector() {
-    const dropdownOptions = { 'import-file': 'Import Explain File', 'insert-document': 'Insert Explain From Text' };
+    const dropdownOptions = {'insert-document': 'Insert Explain From Text' };
     const OptionWriteSelector = global.hadronApp.appRegistry.
       getComponent('DeploymentAwareness.OptionWriteSelector');
     return (
