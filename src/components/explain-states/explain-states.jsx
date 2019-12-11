@@ -5,11 +5,13 @@ import { ZeroState, StatusRow, ViewSwitcher } from 'hadron-react-components';
 import { TextButton } from 'hadron-react-buttons';
 import { ZeroGraphic } from 'components/zero-graphic';
 import { ExplainBody } from 'components/explain-body';
+import InsertDocumentDialog from 'components/explain-states/insert-document-dialog';
 
 import INDEX_TYPES from 'constants/index-types';
 import EXPLAIN_STATES from 'constants/explain-states';
 
 import styles from './explain-states.less';
+import './document-list.less';
 
 /**
  * Readonly warning for the status row.
@@ -37,6 +39,12 @@ const SUBTEXT = 'Explain provides key execution metrics that help diagnose slow 
  * Link to the explain plan documentation.
  */
 const DOCUMENTATION_LINK = 'https://docs.mongodb.com/compass/master/query-plan/';
+
+const BASE_CLASS = 'document-list';
+const ACTION_BAR_CLASS = `${BASE_CLASS}-action-bar`;
+const CONTAINER_CLASS = `${ACTION_BAR_CLASS}-container`;
+const INSERT_DATA = `btn-primary ${ACTION_BAR_CLASS}-insert-data`;
+const INSERT_DATA_TITLE = `${ACTION_BAR_CLASS}-insert-data-title`;
 
 /**
  * The ExplainStates component.
@@ -67,7 +75,20 @@ class ExplainStates extends Component {
     query: PropTypes.any,
     treeStages: PropTypes.object.isRequired,
     appRegistry: PropTypes.object.isRequired,
-    queryExecuted: PropTypes.func.isRequired
+    queryExecuted: PropTypes.func.isRequired,
+
+    openInsertExplainDialog: PropTypes.func.isRequired,
+    openExplainFileDialog: PropTypes.func.isRequired,
+    closeInsertDocumentDialog: PropTypes.func,
+    insertDocument: PropTypes.func,
+    updateJsonDoc: PropTypes.func,
+
+    explainDialog: PropTypes.shape({
+      version: PropTypes.string.isRequired,
+      tz: PropTypes.string,
+      ns: PropTypes.string,
+      insert: PropTypes.object
+    })
   }
 
   constructor(props) {
@@ -102,6 +123,19 @@ class ExplainStates extends Component {
   onExecuteExplainClicked() {
     this.props.changeExplainPlanState(EXPLAIN_STATES.EXECUTED);
     this.props.fetchExplainPlan(this.queryBarStore.state);
+  }
+
+  /**
+   * Handle selection of explain plan Load Plan
+   *
+   * @param {String} key - Selected option from the Load Plan drop down menu.
+   */
+  onInsertExplainOfflineSelected(key) {
+    if (key === 'insert-document') {
+      this.props.openInsertExplainDialog();
+    } else if (key === 'import-file') {
+      this.props.openExplainFileDialog();
+    }
   }
 
   /**
@@ -229,6 +263,43 @@ class ExplainStates extends Component {
   }
 
   /**
+   * Renders OptionWriteSelector component.
+   *
+   * @returns {React.Component} The component.
+   */
+  renderOptionWriteSelector() {
+    const dropdownOptions = {'insert-document': 'Insert Explain From Text' };
+    const OptionWriteSelector = global.hadronApp.appRegistry.
+      getComponent('DeploymentAwareness.OptionWriteSelector');
+    return (
+      <OptionWriteSelector
+        className={INSERT_DATA}
+        id="insert-data-dropdown"
+        isCollectionLevel
+        title={<div className={`btn-primary ${INSERT_DATA_TITLE}`}><i className="fa fa-download" /><span>LOAD PLAN</span></div>}
+        options={dropdownOptions}
+        bsSize="xs"
+        tooltipId="document-is-not-writable"
+        onSelect={this.onInsertExplainOfflineSelected.bind(this)}
+      />
+    );
+  }
+
+  renderInsertModal() {
+    return (
+      <InsertDocumentDialog
+        closeInsertDocumentDialog={this.props.closeInsertDocumentDialog}
+        insertDocument={this.props.insertDocument}
+        updateJsonDoc={this.props.updateJsonDoc}
+        jsonView={this.props.explainDialog.insert.jsonView}
+        version={this.props.explainDialog.version}
+        tz={this.props.explainDialog.tz}
+        ns={this.props.explainDialog.ns}
+        {...this.props.explainDialog.insert} />
+    );
+  }
+
+  /**
    * Renders ExplainPlan component.
    *
    * @returns {React.Component} The rendered component.
@@ -239,10 +310,19 @@ class ExplainStates extends Component {
         <div key="controls-container" className={classnames(styles['controls-container'])}>
           {this.renderBanner()}
           {this.renderQueryBar()}
-          {this.renderViewSwitcher()}
+
+          <div className={CONTAINER_CLASS}>
+            <div className={ACTION_BAR_CLASS}>
+              {this.renderOptionWriteSelector()}
+              {this.renderViewSwitcher()}
+            </div>
+          </div>
+
+
         </div>,
         this.renderZeroState(),
-        this.renderContent()
+        this.renderContent(),
+        this.renderInsertModal()
       ]
     );
   }

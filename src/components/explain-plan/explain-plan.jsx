@@ -11,6 +11,15 @@ import {
   changeExplainPlanState,
   explainStateChanged
 } from 'modules/explain';
+
+import {
+  openInsertExplainDialog,
+  openExplainFileDialog,
+  closeInsertDocumentDialog,
+  insertDocument,
+  updateJsonDoc
+} from 'modules/explain-dialog';
+
 import ExplainStates from 'components/explain-states';
 import { queryExecuted } from 'modules/query';
 
@@ -50,10 +59,12 @@ const mapStateToProps = (state) => pick(
     'namespace',
     'isEditable',
     'explain',
+    'explainDialog',
     'treeStages',
     'appRegistry'
   ]
 );
+
 
 /**
  * Connects the redux store to the component (dispatch)
@@ -68,7 +79,12 @@ const MappedExplainPlan = connect(
     fetchExplainPlan,
     changeExplainPlanState,
     explainStateChanged,
-    queryExecuted
+    queryExecuted,
+    openInsertExplainDialog,
+    openExplainFileDialog,
+    closeInsertDocumentDialog,
+    insertDocument,
+    updateJsonDoc
   },
 )(ExplainPlan);
 

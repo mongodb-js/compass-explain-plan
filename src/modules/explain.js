@@ -246,7 +246,7 @@ export const fetchExplainPlan = (query) => {
       limit: query.limit,
       maxTimeMS: query.maxTimeMS
     };
-    let explain = state.explain;
+    const explain = state.explain;
 
     if (query.collation) {
       options.collation = query.collation;
@@ -260,37 +260,48 @@ export const fetchExplainPlan = (query) => {
           return dispatch(explainPlanFetched(explain));
         }
 
-        explain = parseExplainPlan(explain, data);
-        explain = updateWithIndexesInfo(explain, indexes);
-
-        dispatch(explainPlanFetched(explain));
-        dispatch(treeStagesChanged(explain));
-
-        // Send metrics
-        dispatch(globalAppRegistryEmit(
-          'explain-plan-fetched',
-          {
-            viewMode: explain.viewType,
-            executionTimeMS: explain.executionTimeMillis,
-            inMemorySort: explain.inMemorySort,
-            isCollectionScan: explain.isCollectionScan,
-            isCovered: explain.isCovered,
-            isMultiKey: explain.isMultiKey,
-            isSharded: explain.isSharded,
-            indexType: explain.indexType,
-            index: explain.index ? explain.index.serialize() : null,
-            numberOfDocsReturned: explain.nReturned,
-            numberOfShards: explain.numShards,
-            totalDocsExamined: explain.totalDocsExamined,
-            totalKeysExamined: explain.totalKeysExamined,
-            indexUsed: explain.usedIndex
-          }
-        ));
+        processExplainPlan(dispatch, explain, indexes, data);
 
         return;
       });
     }
   };
+};
+
+/**
+ * Process received Explain Plan
+ * @param {Function} dispatch Dispatch function
+ * @param {Object} explain Explain state object
+ * @param {Object} indexesState Indexes state object
+ * @param {Object} explainPlan Explain plan object
+ */
+export const processExplainPlan = (dispatch, explain, indexesState, explainPlan) => {
+  explain = parseExplainPlan(explain, explainPlan);
+  explain = updateWithIndexesInfo(explain, indexesState);
+
+  dispatch(explainPlanFetched(explain));
+  dispatch(treeStagesChanged(explain));
+
+  // Send metrics
+  dispatch(globalAppRegistryEmit(
+    'explain-plan-fetched',
+    {
+      viewMode: explain.viewType,
+      executionTimeMS: explain.executionTimeMillis,
+      inMemorySort: explain.inMemorySort,
+      isCollectionScan: explain.isCollectionScan,
+      isCovered: explain.isCovered,
+      isMultiKey: explain.isMultiKey,
+      isSharded: explain.isSharded,
+      indexType: explain.indexType,
+      index: explain.index ? explain.index.serialize() : null,
+      numberOfDocsReturned: explain.nReturned,
+      numberOfShards: explain.numShards,
+      totalDocsExamined: explain.totalDocsExamined,
+      totalKeysExamined: explain.totalKeysExamined,
+      indexUsed: explain.usedIndex
+    }
+  ));
 };
 
 /**
