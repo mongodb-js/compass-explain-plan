@@ -22,9 +22,6 @@
     "unlink-plugin": "./scripts/unlink.sh",
     "prepublishOnly": "npm run compile"
   },
-  "precommit": [
-    "check"
-  ],
   "dependency-check": {
     "ignore": [
       "d3",
